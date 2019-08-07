@@ -1,0 +1,11 @@
+{
+  "name": "randommessage",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Chiphyr",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^11.5.1"
+  }
+}
