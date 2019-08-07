@@ -4,8 +4,6 @@ const {
 const {
     toSay,
     token,
-    prefix,
-    maintainers,
     max,
     min
 } = require('./Config');
@@ -52,31 +50,14 @@ client.on('ready', async () => {
 });
 
 client.on('message', async msg => {
-    if (msg.content.startsWith(prefix + 'eval')) {
-        if (!maintainers.includes(msg.author.id)) return;
+    if (msg.channel.type === 'dm') return;
 
-        try {
-            const args = msg.content.slice(prefix.length + 5);
-            const code = args.includes('return') ? args : `return ${args}`;
+    if (channels.includes(msg.channel)) return;
 
-            const evalled = await eval(`(async () => { ${code} })()`);
-
-            msg.delete();
-            return msg.author.send(`:white_check_mark:\n\`\`\`js\n${require('util').inspect(evalled)}\`\`\``);
-        } catch (e) {
-            msg.delete();
-            return msg.author.send(`:x:\n\`\`\`js\n${require('util').inspect(e)}\`\`\``);
-        }
-    } else {
-        if (msg.channel.type === 'dm') return;
-
-        if (channels.includes(msg.channel)) return;
-
-        else {
-            channels.push(msg.channel);
-            return console.log(`Added ${msg.guild.name}/#${msg.channel.name} to the list of channels.`);
-        };
-    }
+    else {
+        channels.push(msg.channel);
+        return console.log(`Added ${msg.guild.name}/#${msg.channel.name} to the list of channels.`);
+    };
 })
 
 client.login(token);
